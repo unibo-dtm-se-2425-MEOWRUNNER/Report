@@ -8,6 +8,15 @@ nav_order: 3
 
 ## User stories
 
+As a player: 
+- I want the cat to run automatically, so that I can focus on jumping. 
+- I want the cat to jump when I press the spacebar, so I can avoid puddles, rocks.
+- I want to see my score and see it increase over time, so it motivates me to play again and again to reach better score.
+- I want the game to get harder and faster the longer I play, so it feels more challenging.
+- I want the game to end when I hit an obstacle, so I know I lost.
+- I want simple pixel art graphics as well as fun and easy interface, so the game experience is good. 
+
+---
 - Write down [user stories](https://www.atlassian.com/agile/project-management/user-stories) to devise the main __personas__ (user roles) and the activities they will perform via the system to be developed.
 
 ## Requirements analysis
