@@ -5,12 +5,11 @@ has_children: false
 nav_order: 1
 ---
 
-# Project title
+# Meow Runner
 
-### Authors
+### Author
 
-- [Giovanni Ciatto](mailto:giovanni.ciatto@unibo.it)
-- [Davide Domini](mailto:davide.domini@unibo.it)
+- [Veronika Angyalová](mailto:veronika.angyalova@studio.unibo.it)
 
 ## Abstract
 
