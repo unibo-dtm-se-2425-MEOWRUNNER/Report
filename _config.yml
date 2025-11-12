@@ -1,5 +1,5 @@
-title: Project work template
-description: A starter template for Software Engineering project work!
+title: Meow Runner
+description: Meow runner is a remake of the classic Chrome offline dinosaur game, redesigned using cat theme. 
 remote_theme: pmarsceill/just-the-docs
 color_scheme: "light"
 search_enabled: true
