@@ -21,6 +21,28 @@ As a player:
 
 ## Requirements analysis
 
+**Functional requirements**
+1.	The system allows player to see and control the cat character. 
+    - When the game begins the player can see the cat and can interact with it using keyboard input.
+2.	The system allows the cat to jump when the player presses the space bar. 
+    - Pressing space bar causes the cat to move upward and then return to the starting position.
+3.	The system generates obstacles (puddles, rocks …) that move towards the cat.
+    - Obstacles appear at regular intervals on the right edge of the screen and move towards the cat. The speed increases.
+4.	The system detects collision of the cat with the obstacles.
+    - If cat collides with the obstacle, the game ends.
+5.	The system provides a scoring system, that increases based on the time the player “survives”.
+    - The score counter is shown in the upper right corner of the screen, and increases with time survived.
+6.	The system increases difficulty over time.
+    - After a fixed period, the speed of obstacles and their frequency increases.
+7.	The system displays a Game Over screen, when the player loses.
+    - After the collision, the game stops, the final score is shown, and player can restart the game with the restart button or exit the game.
+
+**Non-functional requirements**
+
+
+**Implementation**
+
+---
 - The requirements must explain **what** (not how) the software being produced should do.
     - You should not focus on the particular problems, but exclusively on what you want the application to do.
 - Requirements must be clearly identified, and possibly numbered.
