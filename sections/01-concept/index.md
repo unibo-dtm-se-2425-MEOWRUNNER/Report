@@ -6,33 +6,38 @@ nav_order: 2
 
 # Concept
 
-**Application (with GUI – desktop game)**
-- The project consists of a 2D pixel-art desktop game, designed with a graphical user interface. Player controls a cat character that runs through an obstacle-filled environment and jumps to avoid these obstacles to earn points. The game focuses on reflexes, timing and increasing difficulty to keep players engaged.
+### Product Description
+Meow Runner is a 2D infinite-runner desktop application inspired by the classic "Chrome Dino" game. Developed using the Pygame framework, the project features a cat-themed aesthetic using pixel-art assets.
 
-**Use case collection**
-- The primary users are casual players, children or young adults, who enjoy short, skill-based games with simple controls and increasing difficulty. 
-- Users interact with the game whenever they choose to play, typically in short, repeatable sessions. The game is designed for quick entertainment rather than continuous long-term use.
-- Players interact with the system using keyboard controls (for example pressing arrows or spacebar to make the cat jump).
-- The interface of the game consists of:
-    -	Main menu (start, restart, exit options)
-    -	Game screen (cat, background and score)
-    -	Game-over screen (final score, restart option, exit option)
+The application is built on a real-time game loop that manages physics, animations and collision detection. The gameplay loop consists of a player-controlled cat navigating a continiously generated environment. To succeed, the player must use two primary movement mechanics, jumping and ducking, to avoid a variety of ground-based and air-based obstacles.
+
+### Use case collection
+**Target Audience:** Casual gamers, children, and users seeking quick, high-engagement entertainment.
+
+**Usage Pattern:** The system is designed for single-session, high-frequency interaction. Because the game scales in difficulty, users typically engage in short "runs" (1–5 minutes) with the goal of beating their previous session's score.
+
+**Interaction Model:** Users interact via standard keyboard inputs (arrows up and down).
+
+**Data Persistence:** The system operates as a stateless application. Scores are tracked during the active session but are not stored into a database or local file after the application is closed.
+
+### System Roles and Interaction
+The system defines two primary roles:
+
+**1. Player**
+- **Controls:** Uses the UP arrow (jumping) and DOWN arrow (ducking) to manipulate the cat character.
+- **Navigation:** Interacts with the Main Menu and Game Over screens using any key to transition between game states.
+
+**2. Game Engine**
+- **State Management:** Orchestrates the transition between Main Menu, Active Play and Game Over.
+- **Obstacle Spawner:** Randomly selects and deploys entities (plant, gorge, bee) and manages decorative elements (tree) to create a sense of movement.
+- **Difficulty Increase:** Automatically increases game speed every 100 points to ensure a progressive challenge.
+
+### Interface and Environment
+
+**GUI Components:**
+- **Main Menu:** Displays the "Start" state and wait-for-input logic.
+- **Score Display:** A real-time display of the current session score in the upper-right corner.
+- **Game Over Screen:** A terminal state triggered by collision, displaying the final score and a prompt to restart.
+
+**Deployment:** 
 - The system runs on desktop computers or laptops. It is developed to be playable on most modern operating systems that support Python. 
-
-
----
-
-Here you should explain:
-- The type of product developed with that project, for example (non-exhaustive):
-    - Application (with GUI, be it mobile, web, or desktop)
-    - Command-line application (CLI could be used by humans or scripts)
-    - Library
-    - Web-service(s)
-    - Data processing toolkit (= Library + CLI, or Jupyter Notebook)
-
-- Use case collection
-    - Where are the users?
-    - When and how frequently do they interact with the system?
-    - How do they interact with the system? Which devices are they using?
-    - Does the system need to store user's data? Which data? Where?
-    - Most likely, there will be multiple roles.
