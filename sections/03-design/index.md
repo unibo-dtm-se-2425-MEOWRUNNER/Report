@@ -6,94 +6,96 @@ nav_order: 4
 
 # Design
 
-This chapter explains the strategies used to meet the requirements identified in the analysis. 
-
-Ideally, the design should be the same, regardless of the technological choices made during the implementation phase.
-
-> You can re-order the sections as you prefer, but all the sections must be present in the end
 
 ## Architecture 
+The system follows a **Game Loop Architectural Pattern** combined with **Object-Oriented Design**.
 
-- Which architectural style (e.g. layered, object-based, event-based, shared dataspace)? Why? Why not the others?
-- Provide details about the actual architecture (e.g. N-tier, hexagonal, etc.) you are going to adopt. Motivate your choice.
-- Provide a high-level overview of the architecture, possibly with a diagram
-- Describe the responsibilities of each architectural component
+### Architectural style
 
-> UML Components diagrams are welcome here
+For this project, we chose an **Object-Based architectural style**. This means that every major element in the game (*cat, obstacles and trees*) is treated as a self-contained object. Each object is responsible for its own data (*e.g. position on the screen*) and its own behavior (*e.g. moves or animations*).
 
-## Infrastructure (mostly applies to distributed systems)
+Why we chose this over other styles:
 
-- Are there **infrastructural components** that need to be introduced? Which and **how many** of each?
-    - e.g. **clients**, **servers**, **load balancers**, **caches**, **databases**, **message brokers**, **queues**, **workers**, **proxies**, **firewalls**, **CDNs**, etc.
-- How do components **distribute** over the network? **Where** are they located?
-    - e.g. do servers / brokers / databases / etc. sit on the same machine? on the same network? on the same datacenter? on the same continent?
-- How do components **find** each other?
-    - How to **name** components?
-    - e.g. **DNS**, **service discovery**, **load balancing**, etc.
+**Simplicity:** A layered architecture separates data, logic and display into strict levels. In a fast-paced 2D game, these layers can make the code too complex. By keeping the cat's logic and its image together in one class, we make the game faster and easier to manage.
 
-> UML deployment diagrams are welcome here
+**Dynamic:** In some systems, nothing happens unless an "event" (click) occurs. However, when game happens in "real-time" it needs to move even if the player does nothing. Object-based design allows the game to constantly ask each object to update itself every fraction of a second.
+
+**Efficiency:** This is a single-player game running on one computer, we don't need complicated systems like shared dataspaces. So keeping everything inside simple objects makes the game run smoothly on any laptop.
+
+### The Game Loop
+
+The Game Loop is the most important part of the design. It is a continuous cycle that runs muliple times every second. If the loop stops, the game freezes.
+
+1. **Process Input:** 
+The loop starts by capturing the keyboard input of the player. It checks if the UP or DOWN arrow keys are being pressed. It also checks if the player has clicked the "X" to close the window. This ensures the game is always responsive to the user.
+
+2. **Update State:** Once we know what the player wants to do, the system updates the enviroment:
+- It calculates the cat's new position (e.g. handling the gravity of a jump).
+- It moves all obstacles and trees to the left based on the current game speed.
+
+- Collision Check: This is the most critical part of the update. The system checks if the cat’s rectangle has overlapped with an obstacle's rectangle. If they touch, the system decides the game is over.
+
+3. **Draw:** After all the math is done, the system clears the old screen and draws the new one. It draws the background first, then the trees, then the obstacles, and finally the cat on top. This happens fast so the human eye sees it as a smooth, continuous animation.
+
+
+## Infrastructure
+Meow Runner is a Standalone Desktop Application. It doesn't need the internet or a server to function.
+
+- **Local Assets:** All images (the cat, the bees, the plants) are stored in a folder on the computer. The code finds them using direct file paths.
+
+- **Execution:** The game runs entirely in the computer's temporary memory. When you close the game, the session ends, which keeps the system lightweight and fast.
+
 
 ## Modelling
 
-### Domain driven design (DDD) modelling
+### Object-Oriented Modelling (Class Hierarchy)
+The system is modeled using a hierarchy that promotes code reusability:
 
-- Which are the bounded contexts of your domain? 
-- Which are domain concepts (entities, value objects, aggregates, etc.) for each context?
-- Are there repositories, services, or factories for each/any domain concept?
-- What are the relavant domain events in each context?
+- **Cat Class:** Encapsulates the player’s state. It manages its own *rect* (hitbox) and contains the logic for jumping and ducking.
 
-> Context map diagrams are welcome here
+- **Obstacle (Base Class):** Defines the common behavior for all moving objects on screen (movement speed and off-screen deletion).
 
-### Object-oriented modelling
+- **Specialized Subclasses:**
 
-- What are the main data types (e.g. classes) of the system?
-- What are the main attributes and methods of each data type?
-- How do data types relate to each other?
+    - *Plant, Gorge, Bee:* Inherit from Obstacle and define specific hitboxes and spawn heights.
 
-> UML class diagrams are welcome here
+    - *Tree:* Inherits from Obstacle but sets an is_decoration flag, bypassing collision logic in the main loop.
 
-### In case of a distributed system
+### Domain Driven Design (DDD)
+We can identify two primary Bounded Contexts:
 
-- How do the domain concepts map to the architectural or infrastuctural components?
-    + i.e. which architectural/component is responsible for which domain concept?
-    + are there data types which are required onto multiple components? (e.g. messages being exchanged between components)
+- **Game World:** Contains the Physics domain (*Gravity, Velocity, Collision*).
 
-- What are the domain concepts or data types which represent the state of the distributed system?
-    + e.g. state of a video game on central server, while inputs/representations on clients
-    + e.g. where to store messages in an instant-messaging app? for how long?
+- **User Interface:** Contains the Presentation domain (*Menus, Score rendering, Asset scaling*).
 
-- Are there domain concepts or data types which represent messages being exchanged between components?
-    + e.g. messages between clients and servers, messages between servers, messages between clients
 
 ## Interaction
+The components communicate through a Direct Method Invocation pattern, meaning the main game loop directly triggers the logic inside the objects.
 
-- How do components *communicate*? *When*? *What*?
-
-- Which **interaction patterns** do they enact?
-
-> UML sequence diagrams are welcome here
+1. The game loop uses *pygame.key.get_pressed()* to capture a snapshot of the keyboard. This data is saved into a variable called userInput.
+2. The game loop passes this userInput data directly into the cat object by calling *player.update(userInput)*. The cat handles its own internal logic to decide if it should stay on the ground, rise into a jump, or change into a ducking shape.
+3. The main loop looks at the obstacles list. For every obstacle currently active, it calls *obstacle.update(game_speed, obstacles)*. It hands over the current speed of the game so the obstacle knows how many pixels to slide to the left. If an obstacle slides off the left edge of the screen, it removes itself from the list.
+4. The main loop takes the invisible boundary box of the cat *(player.cat_rect)* and compares it against the boundary box of the obstacle *(obstacle.rect)* using Pygame’s *colliderect()* function.
 
 ## Behaviour
+The game transitions through several distinct states based on player input and game logic:
 
-- How does **each** component *behave* individually (e.g., in *response* to *events* or messages)?
-    + Some components may be *stateful*, others *stateless*
+**Global Game State (System Level)**
 
-- Which components are in charge of updating the **state** of the system? *When*? *How*?
+The game operates like a machine with three main modes managed by the *menu()* and *main()* functions:
 
-> UML state diagrams or activity diagrams are welcome here
+- **The Menu State (*death_count == 0*)**: The application opens here. The system displays a static screen ("Press any Key to Start") and stands completely still, waiting for a KEYDOWN event.
 
-## Data-related aspects (in case persistent storage is needed)
+- **The Active Play State:** When a key is pressed, the system calls *main()*. The game loop begins, variables are initialized, score starts counting upward, obstacles start spawning and the screen updates 30 times a second.
 
-- Is there any data that needs to be stored?
-    - *What* data? *Where*? *Why*?
+- **The Terminal State (*collision == True*):** The moment a collision is detected, the loop pauses and changes the cat's image to DEAD, increments the death_count, and hands control back to the *menu(death_count)* function. Because death_count is now greater than 0, the menu text dynamically changes to read "Press any Key to Restart" and displays your final score.
 
-- How should **persistent data** be **stored**? Why?
-    - e.g., relations, documents, key-value, graph, etc.
+**Cat Entity State (Object Level)**
 
-- Which components perform queries on the database?
-    - *When*? *Which* queries? *Why*?
-    - Concurrent read? Concurrent write? Why?
+Inside the active play state, the cat itself switches between three distinct behaviors based on your keyboard inputs:
 
-- Is there any data that needs to be shared between components?
-    - *Why*? *What* data?
+- **Running State:** The default state. The cat cycles through two alternating images *(cat_normal and cat_walk)* to simulate running.
 
+- **Jumping State:** Triggered when the player presses the UP arrow. The cat switches to the JUMPING state The Cat moves upward and then downward to its original ground position. 
+
+- **Ducking State:** Triggered when the player holds the DOWN arrow. The cat switches to alternative images *(cat_duck1 and cat_duck2)* to simulate running while the cat ducks. To make the mechanic actually help the player escape flying obstacles *(Bee)*, the cat's collision height is reduced by 30 pixels *(self.cat_rect.height = original_height - 30)*.
