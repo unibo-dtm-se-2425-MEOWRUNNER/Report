@@ -6,26 +6,27 @@ nav_order: 7
 
 # Release
 
-- Which and how many artefacts are produced from your project's codebase?
-- Onto which repositories (e.g. PyPI, Docker Hub, GitHub Packages, NPM etc.) are they released? Why?
-- How are they released (e.g. manually, automatically, etc.)?
-   + report the configuration steps and commands to run to release the artefacts
+**Release Artifacts**
 
-## Choice of the license
+A single primary artifact is produced for this project: a compressed source distribution (ZIP).
 
-- Which license did you choose for your artefacts? Why?
-- Which license did you choose for your code? Why?
+**Contents:** The package includes the core Python source code, the visuals/ asset directory, the requirements.txt dependency list, and the README.md instruction manual.
 
-## Choice of the versioning schema
+**Repository:** The project is released via GitHub. This platform was chosen for its accessibility, integrated version control, and ability to host "Releases" (tags) that allow users to download specific, stable versions of the game as ZIP files.
 
-- Which versioning schema (e.g. date-based versioning, SemVer, etc.) did you choose for your artefacts? Why?
-   + how does the versioning schema work?
+## Choice of License
+The **Apache License 2.0** was selected as the uniform open-source licensing model for both the project's codebase and its bundled release artifacts. 
 
-- In case of multiple artefacts, are the version numbers aligned or each artefact has its own versioning pace? Why?
+Applying a single license across all software logic and media assets prevents compliance conflicts and ensures simplicity for external users. This permissive framework allows developers to freely run, modify, and distribute the source code or individual game modules for both educational and commercial applications. 
 
-- Describe when and how to create a new version of the artefacts in your project
-   + e.g. when to increment the major, minor, and patch version numbers
-   + e.g. how to create a new release branch
-   + e.g. how to create a new tag
-   + e.g. how to create a new release on GitHub
+Additionally, the Apache License 2.0 provides robust legal protections, including an explicit grant of patent rights to safeguard the project against potential litigation and clear liability limitations establishing that the software is provided strictly on an "as-is" basis to protect the author from future warranty claims.
 
+## Versioning schema
+**Semantic Versioning (SemVer)** was adopted for this project. This schema is industry standard and provides clear expectations to users regarding the nature of updates.
+
+**Schema Logic:** Versioning follows the MAJOR.MINOR.PATCH format:
+- **Major** (e.g., 1.0.0): Incremented when incompatible changes are made (e.g., a total rewrite of the game engine).
+- **Minor** (e.g., 0.1.0): Incremented when new features are added (e.g., adding a new obstacle type like the Bee).
+- **Patch** (e.g., 0.0.1): Incremented when bugs are fixed (e.g., resolving a collision hitbox error).
+
+**Alignment:** Since the project consists of one unified game artifact, version numbers are aligned globally.
