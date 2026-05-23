@@ -31,9 +31,16 @@ These tests were performed to ensure that non-graphical logic was correct before
 
  **Results:** 
  - A 100% success rate was achieved for these logical units.
- - The execution of the tests gave an overall code coverage of 92% across the entire codebase.
+- Test coverage results:
 
-
+| Module Name | Executable Statements | Missed Lines | Coverage Percentage |
+| :--- | :---: | :---: | :---: |
+| *artifact\source\__init__.py* | 0 | 0 | 100% |
+| *artifact\source\cat.py* | 69 | 8 | 88% |
+| *artifact\source\config.py* | 7 | 0 | 100% |
+| *artifact\source\obstacles.py* | 48 | 4 | 92% |
+| *artifact\source\visuals.py* | 27 | 0 | 100% |
+| **TOTAL** | **151** | **12** | **92%** |
 
 ### Integration testing
 The communication between independent modules was verified through integration checks within the *pytest* tests.
