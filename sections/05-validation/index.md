@@ -7,43 +7,80 @@ nav_order: 6
 # Validation
 
 ## Testing approach
+The primary testing approach for "Meow Runner" was **manual functional testing** with **visual debugging**.
 
-- Describe what approach you followed for testing your software
-- If you followed TDD, describe it here
-- Also mention which testing framework you used (e.g. `unittest` or `pytest`) and why
+**Test-Driven Development:** 
 
-## Testing (automated)
+TDD was not utilized for this project. Because the application relies heavily on real-time rendering, framerates and spatial physics (hitboxes), writing tests before writing the Pygame rendering logic was not practical.
 
-> General recommendation: when discussing the tests below, please track to which requirement each test is related to.
+**Testing Framework:** 
+
+Automated testing was executed using the *pytest* framework, while code coverage metrics were monitored and gathered using the *Coverage.py* tool. A visual Debug Mode was also implemented within the main game loop to allow for real-time verification of hitboxes and collision physics during active development. 
+
+## Testing
 
 ### Unit testing
+Unit testing were used for testing individual functions in isolation to ensure they produce the correct output for a given input. 
 
-- Describe the unit tests you developed, and their rationale
-- Report success rate and test coverage here
+These tests were performed to ensure that non-graphical logic was correct before being integrated into the game loop.
+
+**Logical Verification:**
+
+ - The scoring function was tested to confirm that game_speed increments by 1 exactly when the points variable reaches a multiple of 100.
+ - The jump velocity formula was verified to ensure the cat returns to the ground level following a jump action.
+
+ **Results:** 
+ - A 100% success rate was achieved for these logical units.
+ - The execution of the tests gave an overall code coverage of 92% across the entire codebase.
+
+
 
 ### Integration testing
+The communication between independent modules was verified through integration checks within the *pytest* tests.
 
-- Describe couples of components that you tested together, and the corresponding test rationale/plan
+Components tested togheter: 
+- **Cat and Obstacles:** Tests like *test_collision_detected* and *test_no_collision_when_separated* made sure that when the cat's hitbox overlaps with a plant or a bee, the game correctly flags it as a hit. 
+- **Player State and Movement Logic:** Tests like *test_jump_avoids_collision* and *test_duck_avoids_bee* verified that changing the cat's state (jumping or ducking) successfully moves the hitboxes out of harm's way over time.
+- **Memory Cleanup:** The test test_obstacle_move_left ensured that once an obstacle moves completely off the left side of the screen, it is deleted from the active list to keep the game running smoothly.
 
-- Report success rate and test coverage here
+**Test Doubles:** Instead of forcing the tests to wait for a real person to press keys on a keyboard, fake inputs (called Stubs) were used. Python dictionaries like {pygame.K_UP: True} were passed directly into the code to trick the game into thinking a button was pressed, letting the tests run automatically.
 
-- If you used [test doubles](https://en.wikipedia.org/wiki/Test_double), describe her which type of double you used, and why
+**Results** 
+
+A 100% success rate was achieved across these integration components, contributing directly to the 88% coverage of *cat.py* and 92% coverage of *obstacles.py.*
 
 ### System testing
 
-- Describe the tests that you developed to automatically test the system as a whole
-    + and the corresponding test rationale/plan
-    + better would be to have system tests that match the acceptance criteria of the requirements
+System testing evaluated the entire game loop from start to finish to ensure all the rules worked together perfectly.
 
-- Report success rate and test coverage here
+Tests like *TestGameDifficulty* and *TestGameMechanics* simulated an entire play session. They forced the game to calculate what happens at extreme milestones (hitting a massive score of 5,000 points) to confirm the speed goes up smoothly, reaches its intended cap and never breaks or goes backward.
 
-- If you adopted containers (e.g. Docker compose) for testing, describe how you used them here
-    + e.g. to run the system in a clean environment, or to run the tests in a clean environment
+*Containers: Isolated containers like Docker were not used.*
+
+**Results** 
+
+The system-level tests passed with a 100% success rate, proving the core math of the game lifecycle is completely stable.
+
 
 ## Acceptance tests (manual)
+Because the game relies on player reflexes and visual feedback, Manual Acceptance Testing was the most rigorous validation phase. Testing was executed by setting *DEBUG_MODE = True* in *main.py*, which draws visible green (player) and red (obstacle) *pygame.Rect* boundaries to visually verify mathematical collisions.
 
-- If you did any manual testing, describe it here
-- Report the test rationale/plan so that another person can repeat the tests
-    + better would be for acceptance tests to match the acceptance criteria of the requirements
-- Report success rate here
+**Tests Repetition:** 
+- In the main.py set *DEBUG_MODE = True* to see the green and red boudaries and launch main.py,
+- manually try the keyboard inputs listed in the plan below.
 
+The final manual test cases:
+
+| ID | Action | Expected Result | Result |
+| :--- | :--- | :--- | :---: |
+| **01** | Open the game and press SPACE on the main menu. | The menu disappears and the active running game starts smoothly. | **Pass** |
+| **02** | Press the UP arrow key while running. | The cat plays its jumping animation, rises in an arc, and falls back to the exact starting floor line. | **Pass** |
+| **03** | Press and hold the DOWN arrow key while running. | The cat switches to a ducking sprite, and the green debug hitbox instantly shrinks by 30 pixels. | **Pass** |
+| **04** | Run directly into a Plant or a Gorge. | The game freezes instantly, displays the DEAD cat sprite and brings up the GAME OVER state. | **Pass** |
+| **05** | Run directly through a background Tree. | The cat passes cleanly in front of the tree without dying, confirming it is just a background decoration. | **Pass** |
+| **06** | Keep playing until the score counter hits 100 points. | The game speed visibly jumps up by 1, confirming the difficulty scaling works in real-time. | **Pass** |
+
+
+**Results**
+
+The final manual playthroughs achieved a 100% pass rate. The game ran without lagging, crashing or getting stuck on any screens.
