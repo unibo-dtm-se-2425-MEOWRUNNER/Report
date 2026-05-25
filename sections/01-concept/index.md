@@ -32,6 +32,7 @@ The system defines two primary roles:
 - **Obstacle Spawner:** Randomly selects and deploys entities (plant, gorge, bee) and manages decorative elements (tree) to create a sense of movement.
 - **Difficulty Increase:** Automatically increases game speed every 100 points to ensure a progressive challenge.
 
+
 ### Interface and Environment
 
 **GUI Components:**

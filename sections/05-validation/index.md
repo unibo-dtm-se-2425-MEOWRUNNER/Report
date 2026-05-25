@@ -80,7 +80,7 @@ The final manual test cases:
 
 | ID | Action | Expected Result | Result |
 | :--- | :--- | :--- | :---: |
-| **01** | Open the game and press SPACE on the main menu. | The menu disappears and the active running game starts smoothly. | **Pass** |
+| **01** | Open the game and press any key on the main menu. | The menu disappears and the active running game starts smoothly. | **Pass** |
 | **02** | Press the UP arrow key while running. | The cat plays its jumping animation, rises in an arc, and falls back to the exact starting floor line. | **Pass** |
 | **03** | Press and hold the DOWN arrow key while running. | The cat switches to a ducking sprite, and the green debug hitbox instantly shrinks by 30 pixels. | **Pass** |
 | **04** | Run directly into a Plant or a Gorge. | The game freezes instantly, displays the DEAD cat sprite and brings up the GAME OVER state. | **Pass** |

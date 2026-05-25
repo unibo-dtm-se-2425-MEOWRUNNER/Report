@@ -19,6 +19,7 @@ As a player:
 - I want the game to end when I hit an obstacle, so I know I lost.
 - I want simple pixel art graphics as well as fun and easy interface, so the game experience is good. 
 
+![Player Interaction](../../pictures/player_interaction.png)
 
 ## Requirements analysis
 
@@ -40,6 +41,8 @@ As a player:
 8.  The system displays a Game Over screen and allows for a restart.
     - After collision, the game pauses, displays the "Game Over" graphic and the final score, and allows the player to restart the game by pressing any key.
 
+![Cat logic](../../pictures/cat_logic.png)
+
 
 ### Non-Functional requirements
 These requirements describe the performance and quality constraints.
@@ -50,7 +53,4 @@ These requirements describe the performance and quality constraints.
 ### Implementation requirements 
 - **Language & Library:** The project must be implemented in Python 3 using the Pygame library for window management and rendering.
 - **Code Structure:** The system must use Object-Oriented Programming (OOP), specifically using inheritance for obstacles to allow for easy addition of new obstacle types in the future.
----
-
-> You may consider adding a use-case diagram here (via PlantUML) to better visualize the requirements and their relationships
 

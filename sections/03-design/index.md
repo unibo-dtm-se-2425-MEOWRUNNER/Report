@@ -30,13 +30,15 @@ The Game Loop is the most important part of the design. It is a continuous cycle
 The loop starts by capturing the keyboard input of the player. It checks if the UP or DOWN arrow keys are being pressed. It also checks if the player has clicked the "X" to close the window. This ensures the game is always responsive to the user.
 
 2. **Update State:** Once we know what the player wants to do, the system updates the enviroment:
+
 - It calculates the cat's new position (e.g. handling the gravity of a jump).
 - It moves all obstacles and trees to the left based on the current game speed.
 
-- Collision Check: This is the most critical part of the update. The system checks if the cat’s rectangle has overlapped with an obstacle's rectangle. If they touch, the system decides the game is over.
+- *Collision Check:* This is the most critical part of the update. The system checks if the cat’s rectangle has overlapped with an obstacle's rectangle. If they touch, the system decides the game is over.
 
 3. **Draw:** After all the math is done, the system clears the old screen and draws the new one. It draws the background first, then the trees, then the obstacles, and finally the cat on top. This happens fast so the human eye sees it as a smooth, continuous animation.
 
+![System Logic](../../pictures/system_logic.png)
 
 ## Infrastructure
 Meow Runner is a Standalone Desktop Application. It doesn't need the internet or a server to function.
@@ -45,6 +47,7 @@ Meow Runner is a Standalone Desktop Application. It doesn't need the internet or
 
 - **Execution:** The game runs entirely in the computer's temporary memory. When you close the game, the session ends, which keeps the system lightweight and fast.
 
+![Main Components](../../pictures/main_components.png)
 
 ## Modelling
 
@@ -61,12 +64,14 @@ The system is modeled using a hierarchy that promotes code reusability:
 
     - *Tree:* Inherits from Obstacle but sets an is_decoration flag, bypassing collision logic in the main loop.
 
+![Classes](../../pictures/classes.png)
+
 ### Domain Driven Design (DDD)
-We can identify two primary Bounded Contexts:
+While the software operates as a unified desktop application, we can identify two primary Bounded Contexts:
 
-- **Game World:** Contains the Physics domain (*Gravity, Velocity, Collision*).
+- **Game World (Core Domain):** Encapsulates the core physics and runtime constraints, managing entity states, velocity transitions and bounding box intersection calculations.
 
-- **User Interface:** Contains the Presentation domain (*Menus, Score rendering, Asset scaling*).
+- **User Interface (Supporting Domain):** Encapsulates the presentation layer, handling real-time score string rendering, persistent asset loading from memory and application execution lifecycle transitions.
 
 
 ## Interaction
@@ -99,3 +104,4 @@ Inside the active play state, the cat itself switches between three distinct beh
 - **Jumping State:** Triggered when the player presses the UP arrow. The cat switches to the JUMPING state The Cat moves upward and then downward to its original ground position. 
 
 - **Ducking State:** Triggered when the player holds the DOWN arrow. The cat switches to alternative images *(cat_duck1 and cat_duck2)* to simulate running while the cat ducks. To make the mechanic actually help the player escape flying obstacles *(Bee)*, the cat's collision height is reduced by 30 pixels *(self.cat_rect.height = original_height - 30)*.
+
