@@ -15,7 +15,7 @@ TDD was not utilized for this project. Because the application relies heavily on
 
 **Testing Framework:** 
 
-Automated testing was executed using the *pytest* framework, while code coverage metrics were monitored and gathered using the *Coverage.py* tool. A visual Debug Mode was also implemented within the main game loop to allow for real-time verification of hitboxes and collision physics during active development. 
+Automated testing was executed using python's native *unittest* standard library framework, while code coverage metrics were monitored and gathered using the *Coverage.py* tool via automated Poe tasks. A visual Debug Mode was also implemented within the main game loop to allow for real-time verification of hitboxes and collision physics during active development. 
 
 ## Testing
 
@@ -31,7 +31,7 @@ These tests were performed to ensure that non-graphical logic was correct before
 
  **Results:** 
  - A 100% success rate was achieved for these logical units.
-- Test coverage results:
+- Test coverage results *(gathered via poetry un poe coverage-report)*:
 
 | Module Name | Executable Statements | Missed Lines | Coverage Percentage |
 | :--- | :---: | :---: | :---: |
@@ -43,7 +43,7 @@ These tests were performed to ensure that non-graphical logic was correct before
 | **TOTAL** | **151** | **12** | **92%** |
 
 ### Integration testing
-The communication between independent modules was verified through integration checks within the *pytest* tests.
+The communication between independent modules was verified through integration checks within the *unittest* tests.
 
 Components tested togheter: 
 - **Cat and Obstacles:** Tests like *test_collision_detected* and *test_no_collision_when_separated* made sure that when the cat's hitbox overlaps with a plant or a bee, the game correctly flags it as a hit. 
@@ -60,13 +60,13 @@ A 100% success rate was achieved across these integration components, contributi
 
 System testing evaluated the entire game loop from start to finish to ensure all the rules worked together perfectly.
 
-Tests like *TestGameDifficulty* and *TestGameMechanics* simulated an entire play session. They forced the game to calculate what happens at extreme milestones (hitting a massive score of 5,000 points) to confirm the speed goes up smoothly, reaches its intended cap and never breaks or goes backward.
+Tests inheriting from *unittest.TestCase* like *TestGameDifficulty* and *TestGameMechanics* simulated an entire play session. They forced the game to calculate what happens at extreme milestones (hitting a massive score of 5,000 points) to confirm the speed goes up smoothly, reaches its intended cap and never breaks or goes backward.
 
 *Containers: Isolated containers like Docker were not used.*
 
 **Results** 
 
-The system-level tests passed with a 100% success rate, proving the core math of the game lifecycle is completely stable.
+The system-level tests passed with a 100% success rate, proving the core math of the game lifecycle is completely stable within the unified environment runner.
 
 
 ## Acceptance tests (manual)
