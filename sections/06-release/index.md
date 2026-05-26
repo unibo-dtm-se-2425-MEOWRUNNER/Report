@@ -8,11 +8,11 @@ nav_order: 7
 
 **Release Artifacts**
 
-A single primary artifact is produced for this project: a compressed source distribution (ZIP).
+A single primary artifact is produced for this project: a fully compiled Python distribution package managed natively via Poetry and deployed as an open-source library.
 
-**Contents:** The package includes the core Python source code, the visuals/ asset directory, the requirements.txt dependency list, and the README.md instruction manual.
+The package contents include the core Python source code, the visuals/ asset directory, the standardized configuration metadata (pyproject.toml), and the README.md documentation manual.
 
-**Repository:** The project is released via GitHub. This platform was chosen for its accessibility, integrated version control, and ability to host "Releases" (tags) that allow users to download specific, stable versions of the game as ZIP files.
+The project is released via GitHub utilizing integrated Continuous Deployment (CD) workflows. This platform was chosen for its accessibility, integrated version control and ability to host automated pipelines that headlessly compile, version, and publish stable distribution wheels directly onto package servers without manual maintainer intervention.
 
 ## Choice of License
 The **Apache License 2.0** was selected as the uniform open-source licensing model for both the project's codebase and its bundled release artifacts. 
@@ -29,4 +29,4 @@ Additionally, the Apache License 2.0 provides robust legal protections, includin
 - **Minor** (e.g., 0.1.0): Incremented when new features are added (e.g., adding a new obstacle type like the Bee).
 - **Patch** (e.g., 0.0.1): Incremented when bugs are fixed (e.g., resolving a collision hitbox error).
 
-**Alignment:** Since the project consists of one unified game artifact, version numbers are aligned globally.
+**Alignment:** Since the project consists of one unified game artifact, version numbers are aligned globally. This lifecycle management is completely automated by semantic-release within the repository's *.github/workflows/deploy.yml *pipeline, which actively monitors the codebase.
