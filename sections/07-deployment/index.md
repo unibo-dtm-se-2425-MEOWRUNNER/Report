@@ -24,10 +24,10 @@ python -m venv venv
 .\venv\Scripts\Activate
 ```
 
-Regarding system configuration, the application is entirely self-contained. It requires no manual initialization of environment variables, external configuration files, or system registry modifications. Following the installation of dependencies, the software is launched directly via the primary execution script:
+Regarding system configuration, the application is entirely self-contained. It requires no manual initialization of environment variables, external configuration files or system registry modifications. Following the installation of dependencies, the software is launched directly via the primary execution script:
 
 ```bash
-python main.py
+python -m artifact.source.main
 ```
 
 ## Server-side installation
